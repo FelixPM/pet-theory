@@ -1,9 +1,9 @@
 const {promisify} = require('util');
-const express     = require('express');
-const bodyParser  = require('body-parser');
 const {Storage}   = require('@google-cloud/storage');
 const exec        = promisify(require('child_process').exec);
 const storage     = new Storage();
+const express     = require('express');
+const bodyParser  = require('body-parser');
 const app         = express();
 
 app.use(bodyParser.json());
@@ -38,7 +38,7 @@ async function downloadFile(bucketName, fileName) {
 }
 
 async function convertFile(fileName) {
-  const cmd = 'libreoffice --headless --convert-to pdf --outdir /tmp ' + 
+  const cmd = 'libreoffice --headless --convert-to pdf --outdir /tmp ' +
               `"/tmp/${fileName}"`;
   console.log(cmd);
   const { stdout, stderr } = await exec(cmd);
@@ -57,4 +57,3 @@ async function deleteFile(bucketName, fileName) {
 async function uploadFile(bucketName, fileName) {
   await storage.bucket(bucketName).upload(`/tmp/${fileName}`);
 }
-
